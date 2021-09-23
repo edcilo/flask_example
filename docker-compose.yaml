@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  flask_ms:
+    container_name: flask_ms
+    build: .
+    ports:
+    - 5000:5000
+    volumes:
+    - ./:/app
