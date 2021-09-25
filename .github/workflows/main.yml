@@ -45,7 +45,10 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       
       - name: Update deployment file
-        run: TAG=$(echo ${{ steps.meta.outputs.version }}) && sed -i 's|<IMAGE>|'$(echo 'edc')'ilo/micro_flask:'${TAG}'|' $GITHUB_WORKSPACE/k8s/deployment.yaml
+        run: TAG=$(echo ${{ steps.meta.outputs.version }}) && sed -i 's|<IMAGE>|edcilo/micro_flask:'${TAG}'|' $GITHUB_WORKSPACE/k8s/deployment.yaml
 
-      - name: test deployment
-        run: cat $GITHUB_WORKSPACE/k8s/deployment.yaml
+      - name: Save DigitalOcean kubeconfig with short-lived credentials
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 actions-example-k8s-1-18
+      
+      - name: Deploy to DigitalOcean Kubernetes
+        run: kubectl apply -f $GITHUB_WORKSPACE/k8s/deployment.yaml
