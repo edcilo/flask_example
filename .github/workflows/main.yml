@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Update SHA
+        run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/site/_meta
+
       - name: Check out the repo
         uses: actions/checkout@v2
 
@@ -40,3 +43,6 @@ jobs:
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      
+      #- name: Update deployment file
+      #  run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|edcilo/micro_flask:'${TAG}'|' $GITHUB_WORKSPACE/k8s/deployment.yml
