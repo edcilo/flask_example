@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Update SHA
-        run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/site/_meta
+        run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/app/_meta
 
       - name: Check out the repo
         uses: actions/checkout@v2
