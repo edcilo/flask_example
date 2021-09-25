@@ -46,4 +46,4 @@ jobs:
       
       - name: Update deployment file
         #run: TAG=$(echo ${{ steps.meta.outputs.version }} | head -c7) && sed -i 's|<IMAGE>|edcilo/micro_flask:'${TAG}'|' $GITHUB_WORKSPACE/k8s/deployment.yml
-        run: ls $GITHUB_WORKSPACE
+        run: ls $GITHUB_WORKSPACE/k8s
