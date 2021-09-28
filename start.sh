@@ -12,7 +12,7 @@ echo "update pip and install dependencies"
 pip install -r requirements.txt
 
 
-if [ $env = "prod" ]
+if [ $env = "production" ]
 then
     echo $(date '+%F %T.%3N %Z') "[flask] INFO: running production environment"
     gunicorn --bind 0.0.0.0:5000 --chdir ./ms ms:app
