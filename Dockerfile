@@ -11,7 +11,8 @@ RUN pip install -r requirements.txt
 
 COPY . .
 RUN pip install -e .
-RUN pytest
+RUN coverage run -m pytest
+RUN coverage report
 RUN chmod a+rx ./start.sh
 
 EXPOSE 5000
