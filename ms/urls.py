@@ -10,7 +10,7 @@ def index():
         "data": {
             "name": "Flask01",
             "requets": counter.c,
-            "version": "1.0.1",
+            "version": "1.0.2",
         },
         "code": 200
     }), 200
