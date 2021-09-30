@@ -17,6 +17,8 @@ services:
     container_name: flask_db
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
+    ports:
+    - 3306:3306
     volumes:
       - FlaskDbVolume:/var/lib/mysql
     environment:
