@@ -10,3 +10,27 @@ services:
     - ./:/app
     environment:
     - FLASK_ENV=development
+    networks:
+    - flaskNetwork
+
+  flask_db:
+    container_name: flask_db
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - FlaskDbVolume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: flask
+    networks:
+    - flaskNetwork
+
+
+volumes:
+  FlaskDbVolume:
+    driver: local
+
+
+networks:
+  flaskNetwork:
+    driver: "bridge"
