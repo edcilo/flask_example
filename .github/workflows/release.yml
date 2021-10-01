@@ -55,8 +55,8 @@ jobs:
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Save aws kubeconfig
+      - name: Save AWS kubeconfig
         run: aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name ${{ env.CLUSTER_NAME }}
 
-      - name: Show namespaces
-        run: kubectl get namespaces
+      - name: Deploy to EKS
+        run: kubectl apply -f $GITHUB_WORKSPACE/k8s/deployment.yaml
