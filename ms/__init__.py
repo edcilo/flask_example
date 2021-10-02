@@ -10,3 +10,4 @@ import ms.config
 import ms.urls
 import ms.db
 import ms.models
+import ms.commands

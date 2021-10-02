@@ -1,4 +1,4 @@
-name: Release on DigitalOcean
+name: Release on EKS
 
 on:
   release:
@@ -11,6 +11,12 @@ jobs:
     name: Push Docker image to Docker Hub
 
     runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      CLUSTER_NAME: cluster-1
 
     steps:
       - name: Check out the repo
@@ -39,16 +45,18 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
       - name: Update deployment file
         run: TAG=$(echo ${{ steps.meta.outputs.version }}) && sed -i 's|<IMAGE>|edcilo/micro_flask:'${TAG}'|' $GITHUB_WORKSPACE/k8s/deployment.yaml
 
-      - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-1-21-3-do-0-nyc1-1632499027070
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
-      - name: Deploy to DigitalOcean Kubernetes
+      - name: Save AWS kubeconfig
+        run: aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name ${{ env.CLUSTER_NAME }}
+
+      - name: Deploy to EKS
         run: kubectl apply -f $GITHUB_WORKSPACE/k8s/deployment.yaml
