@@ -5,3 +5,5 @@ from ms import app
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+from ms.models import *

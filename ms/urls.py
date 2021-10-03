@@ -1,6 +1,6 @@
 from flask import jsonify
 from ms import app
-from ms.counter import counter
+from ms.helpers.counter import counter
 
 
 @app.route('/')

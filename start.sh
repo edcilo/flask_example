@@ -12,6 +12,11 @@ echo "update pip and install dependencies"
 pip install -r requirements.txt
 
 
+echo "apply migrations"
+flask db init
+flask db upgrade
+
+
 if [ $env = "production" ]
 then
     echo $(date '+%F %T.%3N %Z') "[flask] INFO: running production environment"
