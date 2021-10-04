@@ -8,3 +8,4 @@ app = Flask(__name__)
 
 import ms.urls
 import ms.config
+import ms.commands
